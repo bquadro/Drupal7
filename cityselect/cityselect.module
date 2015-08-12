@@ -52,13 +52,13 @@ function	cityselect_city(){
 function	cityselect_get_list()	{
 		static $citylist=null;
 		if($citylist===null){
-  		$nodes = node_load_multiple(array(), array('type' => 'contact', 'status' => 1));
+  		$nodes = node_load_multiple(array(), array('type' => 'contacts', 'status' => 1));
   		$citylist	=	array();
   		$node	=	reset($nodes);
-  		foreach	($node->field_content_city[LANGUAGE_NONE]	as	$value)	{
+  		foreach	($node->field_office[LANGUAGE_NONE]	as	$value)	{
 				$rows	=	preg_split('/\n/',	$value['value']);
 				$city	=	trim($rows[0]);
-				$phones = preg_split('/\|/',	trim($rows[1]));
+				$phones = preg_split('/\,/',	trim($rows[1]));
 				$citylist[$city]	=	new StdClass();
 				$citylist[$city]->name	=	$city;
 				$citylist[$city]->phones	=	implode("<br>", $phones);
@@ -83,7 +83,7 @@ function	cityselect_block_content(){
     } else {
       $o .= '<div class="city-row"><span class="city-name"><span>Выберите город</span>'.$popup.'</span></div>';
     }
-    $o .= '</div>';
     $o .= '<div class="city-phones"><span>'.$city->phones.'</span></div>';
+    $o .= '</div>';
     return $o;
 }

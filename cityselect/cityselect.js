@@ -7,6 +7,7 @@
   
   var citySel = function(o){
       var cityrow = $('.city-row', o);
+      var cityyour = $('.city-your', o);
       var cityname = $('.city-name', o);
       var cityphones = $('.city-phones', o);
       var citypopup = $('.city-popup', o);
@@ -62,13 +63,18 @@
     }
     
      function setlocation(city){
-      var phones = Drupal.settings.citylist[city] ? Drupal.settings.citylist[city].phones : Drupal.settings.citydefault.phones;
+      var phones = typeof Drupal.settings.citylist[city] != 'undefined' ? Drupal.settings.citylist[city].phones : Drupal.settings.citydefault.phones;
       if(city=='' || city=='null'){
-        cityrow.html('<span class="city-name"><span>Выберите город</span></span>');
+        cityname.html('<span>Выберите город</span>');
+        cityname.removeClass('has-city');
+        cityyour.html('');
       } else {
-        cityrow.html('Ваш город:&nbsp;<span class="city-name has-city"><span>'+city+'</span></span>');
+        cityname.html('<span>'+city+'</span>');
+        cityname.addClass('has-city');
+        cityyour.html('Ваш город:&nbsp;');
       }
-      var phoneClass = phones.charAt(0) == '+' ? 'plus7' : '';
+      var phoneClass = typeof phones != 'undefined' ? (phones.charAt(0) == '+' ? 'plus7' : '') : '';
+      console.log(cityphones);
       cityphones.html('<span class="'+phoneClass+'">'+phones+'</span>'); 
     }
 
