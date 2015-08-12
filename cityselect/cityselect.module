@@ -31,7 +31,7 @@ function	cityselect_findbyip(){
   $ip = $_SERVER['REMOTE_ADDR'];
   $result = $SxGeo->get($ip); 
   unset($SxGeo);
-  return $result['city']['name_ru'] ? $result['city']['name_ru'] : null;
+  return $result['city']['name_ru'] ? 'Samar' : null;
 }
 
 function	cityselect_get_default()	{
@@ -79,9 +79,9 @@ function	cityselect_block_content(){
     $o = '';
     $o .= '<div class="city-select">';    
     if($citylist[$cityname] && $citylist[$cityname]->name != '' && $citylist[$cityname]->name != 'null'){
-      $o .= '<div class="city-row">Ваш город:&nbsp;<span class="city-name has-city"><span>'.$city->name.'</span>'.$popup.'</span></div>';
+      $o .= '<div class="city-row"><span class="city-your">Ваш город:&nbsp;</span><span class="city-name has-city"><span>'.$city->name.'</span>'.$popup.'</span></div>';
     } else {
-      $o .= '<div class="city-row"><span class="city-name"><span>Выберите город</span>'.$popup.'</span></div>';
+      $o .= '<div class="city-row"><span class="city-your"></span><span class="city-name"><span>Выберите город</span>'.$popup.'</span></div>';
     }
     $o .= '<div class="city-phones"><span>'.$city->phones.'</span></div>';
     $o .= '</div>';
