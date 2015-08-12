@@ -1,0 +1,89 @@
+<?php
+
+function cityselect_block_info(){
+  return array(
+    'select' => array(
+      'info' => t('Выбор города'),
+      'cache' => DRUPAL_NO_CACHE,
+    )
+  );
+}
+
+function cityselect_block_view($delta = ''){
+  $block = array();
+  switch ($delta) {
+    case 'select':
+      $block['content'] = cityselect_block_content();
+      break;
+  }
+  return $block;
+}
+
+function cityselect_init(){
+  drupal_add_js(drupal_get_path('module', 'cityselect').'/cityselect.js', array('type'=>'file'));
+  drupal_add_css(drupal_get_path('module', 'cityselect').'/cityselect.css');
+	drupal_add_js(array('citylist' => cityselect_get_list(), 'citydefault' => cityselect_get_default()), 	'setting');
+}
+
+function	cityselect_findbyip(){
+  include(drupal_get_path('module', 'cityselect').'/SxGeo.php');
+  $SxGeo = new SxGeo(drupal_get_path('module', 'cityselect').'/SxGeoCity.dat');
+  $ip = $_SERVER['REMOTE_ADDR'];
+  $result = $SxGeo->get($ip); 
+  unset($SxGeo);
+  return $result['city']['name_ru'] ? $result['city']['name_ru'] : null;
+}
+
+function	cityselect_get_default()	{
+		$citylist = cityselect_get_list();  		
+		$default = reset($citylist);
+		if(!$default){
+			$default=	new StdClass();
+			$default->name	=	'null';
+			$default->phones	=	'';
+		}
+		return $default;
+}
+
+function	cityselect_city(){
+  return isset($_COOKIE['cityselect']) ? $_COOKIE['cityselect'] : cityselect_findbyip();
+}
+
+function	cityselect_get_list()	{
+		static $citylist=null;
+		if($citylist===null){
+  		$nodes = node_load_multiple(array(), array('type' => 'contact', 'status' => 1));
+  		$citylist	=	array();
+  		$node	=	reset($nodes);
+  		foreach	($node->field_content_city[LANGUAGE_NONE]	as	$value)	{
+				$rows	=	preg_split('/\n/',	$value['value']);
+				$city	=	trim($rows[0]);
+				$phones = preg_split('/\|/',	trim($rows[1]));
+				$citylist[$city]	=	new StdClass();
+				$citylist[$city]->name	=	$city;
+				$citylist[$city]->phones	=	implode("<br>", $phones);
+  		}
+		}
+		return $citylist;
+}
+
+function	cityselect_block_content(){
+    $cityname = cityselect_city();
+    $citylist = cityselect_get_list();
+    $city = $citylist[$cityname] ? $citylist[$cityname] : cityselect_get_default();
+    $popup = '<div class="city-popup"><div class="city-popup-inner"><ul class="city-list">';
+    foreach($citylist as $citylist_item){
+      if($citylist_item->name!='' && $citylist_item!='null') $popup .= '<li>'.$citylist_item->name.'</li>';
+    }
+    $popup .= '</ul></div></div>';
+    $o = '';
+    $o .= '<div class="city-select">';    
+    if($citylist[$cityname] && $citylist[$cityname]->name != '' && $citylist[$cityname]->name != 'null'){
+      $o .= '<div class="city-row">Ваш город:&nbsp;<span class="city-name has-city"><span>'.$city->name.'</span>'.$popup.'</span></div>';
+    } else {
+      $o .= '<div class="city-row"><span class="city-name"><span>Выберите город</span>'.$popup.'</span></div>';
+    }
+    $o .= '</div>';
+    $o .= '<div class="city-phones"><span>'.$city->phones.'</span></div>';
+    return $o;
+}

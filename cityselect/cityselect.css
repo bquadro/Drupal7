@@ -1,0 +1,26 @@
+.city-select { position: relative; z-index: 2; }
+.city-phones { position: relative;  z-index:1; }
+.city-select .city-row {  }
+.city-select .city-name {  cursor: pointer; position: relative;}
+.city-select .city-popup {text-align:left;  z-index:1;  position: absolute;   display: none; margin-top: 0px; padding: 20px 0 0 0; left: 50%; top: 1em; width: 200px; margin-left: -100px; font-size: 1em; color: #000;}
+.city-select .city-popup-inner { padding: 15px 20px 5px 20px; background: #fff; box-shadow: 0px 3px 5px rgba(0,0,0,.3);-moz-box-shadow: 0px 3px 5px rgba(0,0,0,.3);-webkit-box-shadow: 0px 3px 5px rgba(0,0,0,.3); }
+.city-select .city-noask { margin:0;  font-size: .8em; color:#989898; margin-bottom: 10px;}
+.city-select .city-noask:hover {color:#000000; }
+.city-select ul.city-list { margin:0 0 10px 0 ; }
+.city-select ul.city-list li { display:block; color: #94593A; text-decoration:none; font-size: 1em; margin-bottom: 5px; padding:0; }
+.city-select ul.city-list li:hover { color: #000000; }
+.city-select ul.city-list li.selected { color: #000000; }
+.city-select ul.city-list li.plus7 { margin-left: -13px; }
+.city-select .city-popup:before {
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #fff;
+	display: block;
+	content: '';
+	position: absolute;
+	left: 50%;
+	margin-left: -10px;
+	top: 10px;
+}

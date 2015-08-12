@@ -1,0 +1,11 @@
+name = Выбор города (City Select)
+description = "Разработка Би-квадро"
+package = Dev
+core = 7.x
+
+; 2015-08-03
+version = "7.x-1.0"
+core = "7.x"
+project = "cityselect"
+datestamp = "1359651687"
+
