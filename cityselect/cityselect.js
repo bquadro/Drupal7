@@ -74,7 +74,6 @@
         cityyour.html('Ваш город:&nbsp;');
       }
       var phoneClass = typeof phones != 'undefined' ? (phones.charAt(0) == '+' ? 'plus7' : '') : '';
-      console.log(cityphones);
       cityphones.html('<span class="'+phoneClass+'">'+phones+'</span>'); 
     }
 

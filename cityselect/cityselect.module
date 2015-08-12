@@ -31,7 +31,7 @@ function	cityselect_findbyip(){
   $ip = $_SERVER['REMOTE_ADDR'];
   $result = $SxGeo->get($ip); 
   unset($SxGeo);
-  return $result['city']['name_ru'] ? 'Samar' : null;
+  return $result['city']['name_ru'] ? $result['city']['name_ru'] : null;
 }
 
 function	cityselect_get_default()	{
